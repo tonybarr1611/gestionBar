@@ -6,7 +6,7 @@ import logo from "./../assets/logo.svg";
 
 function InventoryNavBar() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
       <Container>
         <Navbar.Brand href="#home">
           <img
