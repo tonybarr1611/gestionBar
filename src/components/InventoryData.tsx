@@ -4,18 +4,22 @@ import { Pencil, Trash } from "react-bootstrap-icons";
 
 type Props = {
   id: number;
+  item: string;
+  type: string;
   name: string;
-  lastName: string;
-  username: string;
+  quantity: number;
+  price: number;
 };
 
-function InventoryData({ id, name, lastName, username }: Props) {
+function InventoryData({ id, item, type, name, quantity, price }: Props) {
   return (
     <tr>
       <td>{id}</td>
+      <td>{item}</td>
+      <td>{type}</td>
       <td>{name}</td>
-      <td>{lastName}</td>
-      <td>{username}</td>
+      <td>{quantity}</td>
+      <td>{price}</td>
       <td>
         <ButtonGroup aria-label="Basic example">
           <Button variant="secondary">
