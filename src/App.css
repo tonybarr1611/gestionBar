@@ -1,3 +1,58 @@
+html {
+    height: 100%;
+    background-color: rgb(37, 39, 41);
+}
 body {
+    background-color: rgb(37, 39, 41);
+}
+h2 {
+    color: white;
+    font-size: 1.5em;
+    padding-top: 20%;
+}
+.horizontalSeparator {
+    background-color: rgb(37, 39, 41);
+    border-top: 4px solid rgba(37, 39, 41, 0.75);
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+}
+.fullscreen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+#inventoryModifyForm {
     background-color: rgb(43, 48, 53);
+    color: white;
+    padding-left: 25%;
+    padding-right: 25%;
+}
+#formContainer {
+    padding: 10px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.4);
+    border-style: solid;
+    border-radius: 10px;
+}
+.formSubmitButton {
+    background-color: rgb(37, 39, 41);
+    color: rgb(96,212,234);
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    width: 20%;
+}
+.contrastText {
+    /* font color */
+    color: rgb(96,212,234);
+    font-size: 1.3em;
+}
+#basic-nav-dropdown {
+    color: rgb(96,212,234);
+    font-size: 1.3em;
+}
+#modifyProductHeader {
+    color: rgb(96,212,234);
+    padding-top: 3%;
 }

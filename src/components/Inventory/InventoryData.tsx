@@ -1,6 +1,7 @@
 import { Button } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 type Props = {
   id: number;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 function InventoryData({ id, item, type, name, quantity, price }: Props) {
+  const stateForRoute = { id, item, type, name, quantity, price };
   return (
     <tr>
       <td>{id}</td>
@@ -21,12 +23,14 @@ function InventoryData({ id, item, type, name, quantity, price }: Props) {
       <td>{quantity}</td>
       <td>{price}</td>
       <td>
-        <ButtonGroup aria-label="Basic example">
+        <ButtonGroup aria-label="CRUD buttons">
           <Button variant="secondary">
-            <Pencil></Pencil>
+            <Link to="/inventario/modificar" state={stateForRoute}>
+              <Pencil />
+            </Link>
           </Button>
           <Button variant="secondary">
-            <Trash></Trash>
+            <Trash />
           </Button>
         </ButtonGroup>
       </td>
