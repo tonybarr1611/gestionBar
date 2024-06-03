@@ -8,26 +8,29 @@ function InventoryNavBar() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img
             src={logo}
             alt="Logo del establecimiento bar Bam"
             width="70"
             height="70"
           />
-          Sistema de inventario
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Inventario</Nav.Link>
-            <NavDropdown title="Solicitudes externas" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">
+            <Nav.Link href="/inventario">Inventario</Nav.Link>
+            <NavDropdown title="Proveedores" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/proveedores">
+                Proveedores
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/cotizaciones">
                 Cotizaciones
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Pedidos</NavDropdown.Item>
+              <NavDropdown.Item href="/pedidos">Pedidos</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#link">Proveedores</Nav.Link>
+            <Nav.Link href="/mesas">Mesas</Nav.Link>
+            <Nav.Link href="/facturacion">Facturación</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
