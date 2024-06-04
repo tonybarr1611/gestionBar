@@ -1,4 +1,6 @@
-import Table from "react-bootstrap/Table";
+import { Button, Table } from "react-bootstrap";
+import { PlusCircle } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 import InventoryData from "./InventoryData";
 
 function InventoryDataTable() {
@@ -182,8 +184,13 @@ function InventoryDataTable() {
     // Add more mock data here
   ];
 
+  const maxID = mockData.reduce(
+    (max, data) => (data.id > max ? data.id : max),
+    0
+  );
+
   return (
-    <div>
+    <div className="backgroundGrey">
       <Table striped bordered hover data-bs-theme="dark">
         <thead>
           <tr>
@@ -202,6 +209,16 @@ function InventoryDataTable() {
           ))}
         </tbody>
       </Table>
+      <div className="backgroundGrey">
+        <Link to={"/inventario/agregar"} state={maxID + 1}>
+          <Button variant="secondary" id="addProductBtn">
+            <PlusCircle size={40} />
+            <p>
+              <br />
+            </p>
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

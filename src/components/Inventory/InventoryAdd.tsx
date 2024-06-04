@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-function InventoryModify() {
+function InventoryAdd() {
   const location = useLocation();
-  const { id, item, type, name, quantity, price } = location.state;
+  const id = location.state;
   return (
     <div id="inventoryForm" className="fullscreen">
-      <h1 id="manipulateProductHeader">Modificar producto</h1>
+      <h1 id="manipulateProductHeader">Agregar producto</h1>
       <div id="formContainer">
         <Form className="bg-body-tertiary" data-bs-theme="dark">
           <Form.Label>
@@ -18,23 +18,23 @@ function InventoryModify() {
           <Form.Label>
             <h2>Item:</h2>
           </Form.Label>
-          <Form.Control type="text" placeholder={item} />
+          <Form.Control type="text" />
           <Form.Label>
             <h2>Type:</h2>
           </Form.Label>
-          <Form.Control type="text" placeholder={type} />
+          <Form.Control type="text" />
           <Form.Label>
             <h2>Name:</h2>
           </Form.Label>
-          <Form.Control type="text" placeholder={name} />
+          <Form.Control type="text" />
           <Form.Label>
             <h2>Quantity:</h2>
           </Form.Label>
-          <Form.Control type="text" placeholder={quantity} />
+          <Form.Control type="text" />
           <Form.Label>
             <h2>Price:</h2>
           </Form.Label>
-          <Form.Control type="text" placeholder={price} />
+          <Form.Control type="text" />
           <Button
             className="formSubmitButton"
             variant="secondary"
@@ -48,4 +48,4 @@ function InventoryModify() {
   );
 }
 
-export default InventoryModify;
+export default InventoryAdd;

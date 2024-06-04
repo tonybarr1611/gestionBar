@@ -1,6 +1,8 @@
 import InventoryNavBar from "./components/NavBar";
 import InventoryDataTable from "./components/Inventory/InventoryDataTable";
 import InventoryModify from "./components/Inventory/InventoryModify";
+import InventoryAdd from "./components/Inventory/InventoryAdd";
+import InventoryDeleteModal from "./components/Inventory/InventoryDeleteModal";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -12,6 +14,11 @@ function App() {
         <Route path="/" Component={InventoryDataTable}></Route>
         <Route path="/inventario" Component={InventoryDataTable} />
         <Route path="/inventario/modificar" Component={InventoryModify}></Route>
+        <Route path="/inventario/agregar" Component={InventoryAdd}></Route>
+        <Route
+          path="inventario/eliminar"
+          Component={InventoryDeleteModal}
+        ></Route>
         <Route path="/proveedores"></Route>
         <Route path="/cotizaciones"></Route>
         <Route path="/pedidos"></Route>
