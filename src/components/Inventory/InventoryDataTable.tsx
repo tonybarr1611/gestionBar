@@ -190,34 +190,37 @@ function InventoryDataTable() {
   );
 
   return (
-    <div className="backgroundGrey">
-      <Table striped bordered hover data-bs-theme="dark">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Artículo</th>
-            <th>Tipo</th>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {mockData.map((data) => (
-            <InventoryData key={data.id} {...data} />
-          ))}
-        </tbody>
-      </Table>
-      <div className="backgroundGrey">
-        <Link to={"/inventario/agregar"} state={maxID + 1}>
-          <Button variant="secondary" id="addProductBtn">
-            <PlusCircle size={40} />
-            <p>
-              <br />
-            </p>
-          </Button>
-        </Link>
+    <div className="backgroundGrey datatable">
+      <h3>Inventario</h3>
+      <div className="datatable">
+        <Table striped bordered hover data-bs-theme="dark">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Artículo</th>
+              <th>Tipo</th>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {mockData.map((data) => (
+              <InventoryData key={data.id} {...data} />
+            ))}
+          </tbody>
+        </Table>
+        <div className="backgroundGrey">
+          <Link to={"/inventario/agregar"} state={maxID + 1}>
+            <Button variant="secondary" id="addProductBtn">
+              <PlusCircle size={40} />
+              <p>
+                <br />
+              </p>
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

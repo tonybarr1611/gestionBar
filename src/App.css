@@ -10,9 +10,18 @@ h2 {
     font-size: 1.5em;
     padding-top: 20%;
 }
+h3 {
+    color:  rgb(96,212,234);
+    font-size: 1.3em;
+    padding-left: 1%;
+    padding-top: 0%;
+}
 h5 {
     color: rgb(96,212,234);
     /* font-size: 1.3em; */
+}
+.datatable {
+    padding: 2%;
 }
 .horizontalSeparator {
     background-color: rgb(37, 39, 41);
@@ -27,7 +36,6 @@ h5 {
 }
 .backgroundGrey {
     background-color: rgb(37, 39, 41);
-
 }
 #addProductBtn {
     position: relative;
@@ -74,4 +82,50 @@ h5 {
 #manipulateProductHeader {
     color: rgb(96,212,234);
     padding-top: 3%;
+}
+#filters {
+    display: none;
+}
+.pickersContainer {
+    width: 100%;
+    padding-left: 4%;
+    display: table;
+}
+.pickersRow {
+    display: table-row;
+}
+
+.datepickersCont {
+    padding-left: 4%;
+    width: 600px;
+    display: table-cell;
+}
+.consecutivePickerCont {
+    display: table-cell;
+}
+.toggleBtn {
+    color: rgb(96,212,234);
+    margin-left: 2%;
+}
+#methods {
+    display: flex;
+    padding-left: 4%;
+    padding-top: 2%;
+}
+#methodsRow {
+    width: 100%;
+    /* display: flex; */
+}
+.methodsCell {
+    flex-grow: 1;
+}
+#payConfirmCont {
+    padding-left: 4%;
+    padding-top: 2%;
+}
+#payConfirmEntry {
+    /* center it */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

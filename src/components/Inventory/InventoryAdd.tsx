@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -16,23 +15,23 @@ function InventoryAdd() {
           </Form.Label>
           <Form.Control type="text" value={id} readOnly />
           <Form.Label>
-            <h2>Item:</h2>
+            <h2>Artículo:</h2>
           </Form.Label>
           <Form.Control type="text" />
           <Form.Label>
-            <h2>Type:</h2>
+            <h2>Tipo:</h2>
           </Form.Label>
           <Form.Control type="text" />
           <Form.Label>
-            <h2>Name:</h2>
+            <h2>Nombre:</h2>
           </Form.Label>
           <Form.Control type="text" />
           <Form.Label>
-            <h2>Quantity:</h2>
+            <h2>Cantidad:</h2>
           </Form.Label>
           <Form.Control type="text" />
           <Form.Label>
-            <h2>Price:</h2>
+            <h2>Precio:</h2>
           </Form.Label>
           <Form.Control type="text" />
           <Button
@@ -40,7 +39,7 @@ function InventoryAdd() {
             variant="secondary"
             type="submit"
           >
-            Submit
+            Agregar
           </Button>
         </Form>
       </div>

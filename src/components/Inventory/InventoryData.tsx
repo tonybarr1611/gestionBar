@@ -47,25 +47,25 @@ function InventoryData({ id, item, type, name, quantity, price }: Props) {
                 <Modal.Title>Desea eliminar el siguiente producto:</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <h5>ID</h5>
+                <h5>ID:</h5>
                 <p>{id}</p>
-                <h5>Item</h5>
+                <h5>Artículo:</h5>
                 <p>{item}</p>
-                <h5>Type</h5>
+                <h5>Tipo:</h5>
                 <p>{type}</p>
-                <h5>Name</h5>
+                <h5>Nombre:</h5>
                 <p>{name}</p>
-                <h5>Quantity</h5>
+                <h5>Cantidad:</h5>
                 <p>{quantity}</p>
-                <h5>Price</h5>
+                <h5>Precio</h5>
                 <p>{price}</p>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                  Close
+                  Cerrar
                 </Button>
                 <Button variant="primary" onClick={handleClose}>
-                  Save Changes
+                  Eliminar
                 </Button>
               </Modal.Footer>
             </Modal>

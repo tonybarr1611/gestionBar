@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "./../assets/logo.svg";
 
-function InventoryNavBar() {
+function NavBar() {
   return (
     <div>
       <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
@@ -49,4 +49,4 @@ function InventoryNavBar() {
   );
 }
 
-export default InventoryNavBar;
+export default NavBar;
