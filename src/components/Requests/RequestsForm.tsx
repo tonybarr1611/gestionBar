@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { PlusCircle, DashCircle } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";

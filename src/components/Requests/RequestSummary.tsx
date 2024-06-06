@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
 import html2canvas from "html2canvas";
