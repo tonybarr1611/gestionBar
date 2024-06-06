@@ -1,14 +1,5 @@
-.gridContainer {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-  margin: 10px;
-}
 .twoColumnsItem {
   grid-column: span 2;
-}
-.gridItem {
-  padding: 10px;
 }
 .borderedItem {
   border: 1px solid #cccccc54;

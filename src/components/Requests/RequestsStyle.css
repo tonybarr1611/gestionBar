@@ -1,0 +1,45 @@
+.scrollableContainer {
+  height: 220px;
+  overflow-y: auto;
+}
+.bordered {
+  border: 1px solid  rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+.padding {
+  padding: 5px;
+}
+.marginContainer {
+  margin: 10px;
+}
+.BtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.submitBtn {
+    border: none;
+    border-radius: 5px;
+    padding: 2px;
+    margin-top: 3%;
+}
+#submitB {
+    background-color:  rgb(96,212,234);
+    color: black;
+}
+#solicitud {
+    background-color:  rgb(43,48,53);
+}
+.solicitud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.solicitud-header h5 {
+  margin: 0;
+}
+
+.header-image {
+  height: 4%;
+}

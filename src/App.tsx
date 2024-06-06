@@ -7,6 +7,8 @@ import SuppliersDataTable from "./components/Suppliers/SuppliersDataTable";
 import SuppliersModify from "./components/Suppliers/SuppliersModify";
 import SuppliersAdd from "./components/Suppliers/SuppliersAdd";
 import TablesDashboard from "./components/Tables/TablesDashboard";
+import RequestsForm from "./components/Requests/RequestsForm";
+import RequestSummary from "./components/Requests/RequestSummary";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -25,8 +27,8 @@ function App() {
           Component={SuppliersModify}
         ></Route>
         <Route path="/proveedores/agregar" Component={SuppliersAdd}></Route>
-        <Route path="/cotizaciones"></Route>
-        <Route path="/pedidos"></Route>
+        <Route path="/solicitudes" Component={RequestsForm}></Route>
+        <Route path="/solicitudes/resumen" Component={RequestSummary}></Route>
         <Route path="/mesas" Component={TablesDashboard}></Route>
         <Route path="/facturacion" Component={BillingDataTable}></Route>
       </Routes>

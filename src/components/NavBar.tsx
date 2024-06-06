@@ -27,11 +27,8 @@ function NavBar() {
                 <NavDropdown.Item className="contrastText" href="/proveedores">
                   Proveedores
                 </NavDropdown.Item>
-                <NavDropdown.Item className="contrastText" href="/cotizaciones">
-                  Cotizaciones
-                </NavDropdown.Item>
-                <NavDropdown.Item className="contrastText" href="/pedidos">
-                  Pedidos
+                <NavDropdown.Item className="contrastText" href="/solicitudes">
+                  Solicitudes
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link className="contrastText" href="/mesas">

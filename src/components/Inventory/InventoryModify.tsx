@@ -8,7 +8,7 @@ function InventoryModify() {
   return (
     <div id="inventoryForm" className="fullscreen">
       <h1 id="manipulateProductHeader">Modificar producto</h1>
-      <div id="formContainer">
+      <div className="formContainer">
         <Form className="bg-body-tertiary" data-bs-theme="dark">
           <Form.Label>
             <h2>ID:</h2>
