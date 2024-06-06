@@ -1,0 +1,75 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  margin: 10px;
+}
+.twoColumnsItem {
+  grid-column: span 2;
+}
+.gridItem {
+  padding: 10px;
+}
+.borderedItem {
+  border: 1px solid #cccccc54;
+  border-radius: 20px;
+}
+.square{
+    aspect-ratio: 1;
+    width: auto;
+    height: auto;
+}
+.centerImage {
+  display: block;
+  opacity: 1;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+}
+.centerText {
+    /* text gotta be floating over other elements */
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+.container {
+    position: relative;
+    width: 50%;
+}
+.transparentBtn {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.scrollableDiv {
+    height: 420px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btnContrast {
+    background-color: rgb(96,212,234);
+    color: rgb(37, 39, 41);
+    border: black solid 1px;
+    border-radius: 5px;
+    padding: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+    margin: 1%;
+}

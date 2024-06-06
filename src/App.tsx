@@ -6,6 +6,7 @@ import BillingDataTable from "./components/Billing/BillingDataTable";
 import SuppliersDataTable from "./components/Suppliers/SuppliersDataTable";
 import SuppliersModify from "./components/Suppliers/SuppliersModify";
 import SuppliersAdd from "./components/Suppliers/SuppliersAdd";
+import TablesDashboard from "./components/Tables/TablesDashboard";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         <Route path="/proveedores/agregar" Component={SuppliersAdd}></Route>
         <Route path="/cotizaciones"></Route>
         <Route path="/pedidos"></Route>
-        <Route path="/mesas"></Route>
+        <Route path="/mesas" Component={TablesDashboard}></Route>
         <Route path="/facturacion" Component={BillingDataTable}></Route>
       </Routes>
     </Router>
