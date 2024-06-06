@@ -40,6 +40,9 @@ function NavBar() {
               <Nav.Link className="contrastText" href="/facturacion">
                 Facturación
               </Nav.Link>
+              <Nav.Link className="contrastText" href="/reportes">
+                Reportes
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

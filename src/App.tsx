@@ -3,6 +3,9 @@ import InventoryDataTable from "./components/Inventory/InventoryDataTable";
 import InventoryModify from "./components/Inventory/InventoryModify";
 import InventoryAdd from "./components/Inventory/InventoryAdd";
 import BillingDataTable from "./components/Billing/BillingDataTable";
+import SuppliersDataTable from "./components/Suppliers/SuppliersDataTable";
+import SuppliersModify from "./components/Suppliers/SuppliersModify";
+import SuppliersAdd from "./components/Suppliers/SuppliersAdd";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -15,7 +18,12 @@ function App() {
         <Route path="/inventario" Component={InventoryDataTable} />
         <Route path="/inventario/modificar" Component={InventoryModify}></Route>
         <Route path="/inventario/agregar" Component={InventoryAdd}></Route>
-        <Route path="/proveedores"></Route>
+        <Route path="/proveedores" Component={SuppliersDataTable}></Route>
+        <Route
+          path="/proveedores/modificar"
+          Component={SuppliersModify}
+        ></Route>
+        <Route path="/proveedores/agregar" Component={SuppliersAdd}></Route>
         <Route path="/cotizaciones"></Route>
         <Route path="/pedidos"></Route>
         <Route path="/mesas"></Route>

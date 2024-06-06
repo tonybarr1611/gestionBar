@@ -2,12 +2,12 @@ import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-function InventoryAdd() {
+function SuppliersAdd() {
   const location = useLocation();
   const id = location.state;
   return (
     <div id="inventoryForm" className="fullscreen">
-      <h1 id="manipulateProductHeader">Agregar producto</h1>
+      <h1 id="manipulateProductHeader">Agregar Proveedor</h1>
       <div id="formContainer">
         <Form className="bg-body-tertiary" data-bs-theme="dark">
           <Form.Label>
@@ -15,31 +15,24 @@ function InventoryAdd() {
           </Form.Label>
           <Form.Control type="text" value={id} readOnly />
           <Form.Label>
-            <h2>Artículo:</h2>
-          </Form.Label>
-          <Form.Control type="text" />
-          <Form.Label>
-            <h2>Tipo:</h2>
-          </Form.Label>
-          <Form.Control type="text" />
-          <Form.Label>
             <h2>Nombre:</h2>
           </Form.Label>
           <Form.Control type="text" />
           <Form.Label>
-            <h2>Cantidad:</h2>
+            <h2>Correo electrónico:</h2>
           </Form.Label>
-          <Form.Control type="text" />
+          <Form.Control type="email" placeholder="nombre@ejemplo.com" />
           <Form.Label>
-            <h2>Precio:</h2>
+            <h2>Teléfono:</h2>
           </Form.Label>
-          <Form.Control type="text" />
+          <Form.Control type="tel" />
           <Button
             className="formSubmitButton"
             variant="secondary"
             type="submit"
             onClick={() => (
-              window.location.assign("/inventario"), alert("Producto agregado")
+              window.location.assign("/proveedores"),
+              alert("Proveedor agregado")
             )}
           >
             Agregar
@@ -50,4 +43,4 @@ function InventoryAdd() {
   );
 }
 
-export default InventoryAdd;
+export default SuppliersAdd;
