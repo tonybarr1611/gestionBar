@@ -42,7 +42,10 @@ function InventoryData({ id, ammount, client, date, status }: Props) {
       document.getElementById("payConfirmEntry") as HTMLInputElement
     ).value;
 
-    if (paymentConfirmation === "") {
+    if (
+      paymentConfirmation === "" &&
+      !(document.getElementById("efectivo") as HTMLInputElement).checked
+    ) {
       alert("Debe ingresar un comprobante de pago.");
       return;
     }
