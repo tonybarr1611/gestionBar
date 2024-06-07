@@ -4,6 +4,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./RequestsStyle.css";
 import Logo from "../../assets/logo.svg";
+import axios from "axios";
 
 function RequestSummary() {
   const location = useLocation();
@@ -39,23 +40,33 @@ function RequestSummary() {
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       const pdfBlob = pdf.output("blob");
 
-      // Create form data to send to the backend
-      const formData = new FormData();
-      formData.append("file", pdfBlob, "solicitud.pdf");
-      // open the PDF in a new tab
-      window.open(URL.createObjectURL(pdfBlob));
+      var entireResponse = true;
+      // send one request per supplier
+      for (const supplier of suppliers) {
+        const formData = new FormData();
+        formData.append("file", pdfBlob, "solicitud.pdf");
+        formData.append("supplierName", supplier.name);
+        formData.append("supplierEmail", supplier.email);
 
-      // // Replace with your backend URL
-      // const response = await fetch("/api/send-request", {
-      //   method: "POST",
-      //   body: formData,
-      // });
+        const response = await axios.post(
+          "http://localhost:8000/api/sendEmail",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-      // if (response.ok) {
-      //   alert("Solicitud enviada con éxito");
-      // } else {
-      //   alert("Error al enviar la solicitud");
-      // }
+        entireResponse = entireResponse && response.status === 200;
+      }
+
+      if (entireResponse) {
+        alert("Solicitud enviada con éxito");
+        window.location.assign("/solicitudes");
+      } else {
+        alert("Error al enviar la solicitud");
+      }
     } catch (error) {
       console.error("Error generating PDF: ", error);
       alert("Error al generar el PDF");

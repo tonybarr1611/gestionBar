@@ -1,14 +1,18 @@
 import express from 'express';
+import multer from 'multer';
 import {fetchP, createP, updateP, eraseP} from '../controller/producto.js';
 import {fetchR, createR, updateR, updateState, eraseR} from '../controller/recibo.js';
 import {fetchRD, createRD, updateRD} from '../controller/reciboDetalle.js';
 import {fetchS, createS, updateS, eraseS} from '../controller/proveedor.js';
 import {fetchM, cambiarEstado, deleteM, createM} from '../controller/mesa.js';
 import {fetchMD, fetchOneMD, createMD, updateMD, eraseMD} from '../controller/mesaDetalle.js';
-import {montoTotal, cantidadTotal, resumenProductos, transMesaRecibo, getTableTotal} from '../controller/querys.js';
+import {montoTotal, cantidadTotal, resumenProductos, transMesaRecibo, getTableTotal, sendEmail} from '../controller/querys.js';
 import axios from 'axios';
 import { get } from 'mongoose';
 const route = express.Router();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 //Querys
 route.get('/get/total', montoTotal) ; 
@@ -16,6 +20,7 @@ route.get('/get/resumen', resumenProductos);
 route.get('/get/cantidad', cantidadTotal);
 route.post('/transMesaRecibo/:idMesa', transMesaRecibo);
 route.get('/get/tableTotal/:idMesa', getTableTotal);
+route.post('/sendEmail', upload.single("file"), sendEmail);
 
 //mesa 
 route.get('/get/mesa', fetchM);

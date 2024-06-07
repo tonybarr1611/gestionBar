@@ -4,13 +4,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import route from './routes/UserRoute.js';
+import multer from 'multer';
 const app = express(bodyParser.json());
 app.use(cors());
-dotenv.config();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const PORT = 8000 || 7000;
-const MONGO_URI = "mongodb+srv://admin:1234@cluster0.cazjlgw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+dotenv.config({ path: './backend/keys.env' });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const PORT = process.env.PORT || 7000;
+const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI, { dbName: 'Bam', useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
