@@ -40,7 +40,9 @@ function SuppliersData({ id, name, email, phone }: Props) {
             {/* Delete modal; it it's hidden most of the time, but ready to be rendered when needed */}
             <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Desea eliminar el siguiente producto:</Modal.Title>
+                <Modal.Title>
+                  Desea eliminar el siguiente proveedor:
+                </Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <h5>ID:</h5>

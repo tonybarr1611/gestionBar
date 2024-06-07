@@ -3,29 +3,48 @@ import { Button, Modal } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type Props = {
   id: number;
   item: string;
-  type: string;
-  name: string;
   quantity: number;
   price: number;
 };
 
-function InventoryData({ id, item, type, name, quantity, price }: Props) {
+function InventoryData({ id, item, quantity, price }: Props) {
   // State for the modify route
-  const stateForRoute = { id, item, type, name, quantity, price };
+  const stateForRoute = { id, item, quantity, price };
   // State for the modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  function returnToInventory() {
+    window.location.assign("/inventario");
+  }
+
+  const deleteProduct = async (idToDelete: number) => {
+    try {
+      console.log("Deleting product with ID:", idToDelete);
+      const url =
+        `http://localhost:8000/api/delete/product/` + idToDelete.toString();
+      await axios.delete(url);
+      returnToInventory();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    console.log("Deleting product with ID:", id);
+    deleteProduct(id);
+  };
+
   return (
     <tr>
       <td>{id}</td>
       <td>{item}</td>
-      <td>{type}</td>
-      <td>{name}</td>
       <td>{quantity}</td>
       <td>{price}</td>
       <td>
@@ -51,10 +70,6 @@ function InventoryData({ id, item, type, name, quantity, price }: Props) {
                 <p>{id}</p>
                 <h5>Artículo:</h5>
                 <p>{item}</p>
-                <h5>Tipo:</h5>
-                <p>{type}</p>
-                <h5>Nombre:</h5>
-                <p>{name}</p>
                 <h5>Cantidad:</h5>
                 <p>{quantity}</p>
                 <h5>Precio</h5>
@@ -64,7 +79,7 @@ function InventoryData({ id, item, type, name, quantity, price }: Props) {
                 <Button variant="secondary" onClick={handleClose}>
                   Cerrar
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={() => handleDelete(id)}>
                   Eliminar
                 </Button>
               </Modal.Footer>

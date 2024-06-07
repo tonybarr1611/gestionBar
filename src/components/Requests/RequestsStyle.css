@@ -43,3 +43,6 @@
 .header-image {
   height: 4%;
 }
+.scrollableDiv {
+  overflow: auto;
+}
