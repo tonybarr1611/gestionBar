@@ -32,8 +32,8 @@ export const fetchS = async (req, res) => {
 
 export const updateS = async (req, res) => {
     try {
-        const proveedorName = req.params.name; // El nombre del producto a actualizar se obtiene de los parámetros de la solicitud
-        const proveedorn = await proveedor.findOne({ nombre: proveedorName }); // Buscar el producto por su nombre en lugar de por su ID
+        const id = req.params.idProveedor; // El nombre del producto a actualizar se obtiene de los parámetros de la solicitud
+        const proveedorn = await proveedor.findOne({ idProveedor: id }); // Buscar el producto por su nombre en lugar de por su ID
         if (!proveedorn) {
             return res.status(404).json({ error: 'proveedor not found' });
         }
@@ -50,8 +50,8 @@ export const updateS = async (req, res) => {
 
 export const eraseS = async (req, res) => {
     try {
-        const proveedorName = req.params.name;
-        const proveedore = await proveedor.findOne({ nombre : proveedorName });
+        const id = req.params.idProveedor;
+        const proveedore = await proveedor.findOne({ idProveedor : id });
         if (!proveedore) {
             return res.status(404).json({ error: 'proveedor not found' });
         }

@@ -50,8 +50,8 @@ route.put('/update/RD/:nombre', updateRD);
 //proveedores
 route.get('/get/proveedor', fetchS);
 route.post('/create/proveedor', createS);
-route.put('/update/proveedor/:name', updateS);
-route.delete('/delete/proveedor/:name', eraseS);
+route.put('/update/proveedor/:idProveedor', updateS);
+route.delete('/delete/proveedor/:idProveedor', eraseS);
 
 
 

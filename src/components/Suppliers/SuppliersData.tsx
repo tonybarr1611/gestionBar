@@ -3,21 +3,45 @@ import { Button, Modal } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
 import { Pencil, Trash } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type Props = {
+  _id: string;
   id: number;
   name: string;
   email: string;
   phone: number;
 };
 
-function SuppliersData({ id, name, email, phone }: Props) {
+function SuppliersData({ _id, id, name, email, phone }: Props) {
   // State for the modify route
-  const stateForRoute = { id, name, email, phone };
+  const stateForRoute = { _id, id, name, email, phone };
   // State for the modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  function returnToSuppliers() {
+    window.location.assign("/proveedores");
+  }
+
+  const deleteProduct = async (idToDelete: number) => {
+    try {
+      console.log("Deleting supplier with ID:", idToDelete);
+      const url =
+        `http://localhost:8000/api/delete/proveedor/` + idToDelete.toString();
+      await axios.delete(url);
+      returnToSuppliers();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    console.log("Deleting supplier with ID:", id);
+    deleteProduct(id);
+  };
+
   return (
     <tr>
       <td>{id}</td>
@@ -58,7 +82,7 @@ function SuppliersData({ id, name, email, phone }: Props) {
                 <Button variant="secondary" onClick={handleClose}>
                   Cerrar
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={() => handleDelete(id)}>
                   Eliminar
                 </Button>
               </Modal.Footer>

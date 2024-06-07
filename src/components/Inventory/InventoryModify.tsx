@@ -34,7 +34,7 @@ function InventoryModify() {
     if (quantityValue === "" || quantityValue.startsWith("-")) {
       quantityValue = quantity;
     }
-    if (price === "" || priceValue.startsWith("-")) {
+    if (priceValue === "" || priceValue.startsWith("-")) {
       priceValue = price;
     }
 

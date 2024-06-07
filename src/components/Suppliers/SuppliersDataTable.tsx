@@ -1,21 +1,35 @@
+import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { PlusCircle } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import SuppliersData from "./SuppliersData";
 
 function SuppliersDataTable() {
-  const mockData = [
-    {
-      id: 1,
-      name: "Cervecería de Costa Rica",
-      email: "cerveceria@fifco.com",
-      phone: 123123123,
-    },
-    // Add more mock data here
-  ];
+  const [data, setData] = useState([]);
 
-  const maxID = mockData.reduce(
-    (max, data) => (data.id > max ? data.id : max),
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/get/proveedor");
+        const data = await response.json();
+        const mappedData = data.map((supplier: any) => ({
+          _id: supplier._id,
+          id: supplier.idProveedor,
+          name: supplier.nombre,
+          email: supplier.correo,
+          phone: supplier.telefono,
+        }));
+        setData(mappedData); // Handling JSON response
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  const maxID = data.reduce(
+    (max: any, data: any) => (data.id > max ? data.id : max),
     0
   );
 
@@ -34,7 +48,7 @@ function SuppliersDataTable() {
             </tr>
           </thead>
           <tbody>
-            {mockData.map((data) => (
+            {data.map((data: any) => (
               <SuppliersData key={data.id} {...data} />
             ))}
           </tbody>
