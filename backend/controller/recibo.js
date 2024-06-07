@@ -50,7 +50,24 @@ export const updateR = async (req, res) => {
         console.error('Error updating product:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
-};  
+}; 
+
+export const updateState = async (req, res) => {
+    try {
+        const reciboId = req.params.idRecibo; // El nombre del producto a actualizar se obtiene de los parámetros de la solicitud
+        const reciboU = await recibo.findOne({ idRecibo: reciboId }); // Buscar el producto por su nombre en lugar de por su ID
+        if (!reciboU) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        reciboU.estado = req.body.estado;
+        await reciboU.save();
+        res.status(200).json(reciboU);
+    }   catch (error) {
+        console.error('Error updating product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+}
 
 export const eraseR = async (req, res) => {
     try {
@@ -70,4 +87,4 @@ export const eraseR = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-export default {fetchR , createR, updateR, eraseR}; // This is the function that will be called in the route file.
+export default {fetchR , createR, updateR, updateState, eraseR}; // This is the function that will be called in the route file.

@@ -1,69 +1,39 @@
-import { Button, Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Table, Button } from "react-bootstrap";
 import { Filter } from "react-bootstrap-icons";
-import { useState } from "react";
-import BillingData from "./BillingData";
+import axios from "axios";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+import BillingData from "./BillingData"; // Ensure you have this component
 
 function BillingDataTable() {
-  const mockData = [
-    {
-      id: 1,
-      ammount: 10000,
-      client: "Anonymous",
-      date: new Date("2024-01-01"),
-      status: "Pendiente",
-    },
-    {
-      id: 2,
-      ammount: 20000,
-      client: "Anonymous",
-      date: new Date("2021-10-02"),
-      status: "Cancelado",
-    },
-    {
-      id: 3,
-      ammount: 30000,
-      client: "Anonymous",
-      date: new Date("2021-10-03"),
-      status: "Pendiente",
-    },
-    {
-      id: 4,
-      ammount: 40000,
-      client: "Anonymous",
-      date: new Date("2021-10-05"),
-      status: "Pendiente",
-    },
-    {
-      id: 5,
-      ammount: 50000,
-      client: "Anonymous",
-      date: new Date("2021-10-07"),
-      status: "Cancelado",
-    },
-    {
-      id: 6,
-      ammount: 60000,
-      client: "Anonymous",
-      date: new Date("2021-11-21"),
-      status: "Pendiente",
-    },
-    {
-      id: 7,
-      ammount: 70000,
-      client: "Anonymous",
-      date: new Date("2021-09-01"),
-      status: "Pendiente",
-    },
-    // Add more mock data here
-  ];
-
+  const [billingData, setBillingData] = useState<any[]>([]);
   const [BottomDate, setBottomDate] = useState(new Date());
   const [TopDate, setTopDate] = useState(new Date());
   const [Consecutive, setConsecutive] = useState("");
   const [SearchBy, setSearchBy] = useState(-1);
+
+  useEffect(() => {
+    const fetchBillingData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/get/recibo"
+        );
+        const fetchedData = response.data.map((recibo: any) => ({
+          id: recibo.idRecibo,
+          ammount: recibo.monto,
+          client: recibo.comprador,
+          date: new Date(recibo.fecha),
+          status: recibo.estado,
+        }));
+        setBillingData(fetchedData);
+      } catch (error) {
+        console.error("Error fetching billing data:", error);
+      }
+    };
+
+    fetchBillingData();
+  }, []);
 
   function toggleDiv() {
     setSearchBy(-1);
@@ -93,7 +63,7 @@ function BillingDataTable() {
 
   return (
     <div className="backgroundGrey datatable">
-      <h3>Facturacion</h3>
+      <h3>Facturación</h3>
       <Button variant="secondary" onClick={toggleDiv} className="toggleBtn">
         <Filter />
       </Button>
@@ -111,13 +81,7 @@ function BillingDataTable() {
               <p>Fecha de inicio:</p>
               <DatePicker
                 selected={BottomDate}
-                onChange={(date: Date) => (
-                  setBottomDate(date),
-                  console.log(date.getDate()),
-                  console.log(date.getUTCMonth() + 1),
-                  console.log(date.getFullYear()),
-                  console.log(date.toJSON())
-                )}
+                onChange={(date: Date) => setBottomDate(date)}
               />
               <p>
                 <br />
@@ -125,13 +89,7 @@ function BillingDataTable() {
               </p>
               <DatePicker
                 selected={TopDate}
-                onChange={(date: Date) => (
-                  setTopDate(date),
-                  console.log(date.getDate()),
-                  console.log(date.getUTCMonth() + 1),
-                  console.log(date.getFullYear()),
-                  console.log(date.toJSON())
-                )}
+                onChange={(date: Date) => setTopDate(date)}
               />
             </div>
           </div>
@@ -166,12 +124,12 @@ function BillingDataTable() {
             </tr>
           </thead>
           <tbody>
-            {mockData
+            {billingData
               .filter(
                 (row) =>
                   (SearchBy === 0 &&
-                    row.date.toJSON() >= BottomDate.toJSON() &&
-                    row.date.toJSON() <= TopDate.toJSON()) ||
+                    row.date >= BottomDate &&
+                    row.date <= TopDate) ||
                   (SearchBy === 1 && row.id.toString() === Consecutive) ||
                   SearchBy === -1
               )

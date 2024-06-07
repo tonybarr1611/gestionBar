@@ -1,6 +1,6 @@
 import express from 'express';
 import {fetchP, createP, updateP, eraseP} from '../controller/producto.js';
-import {fetchR, createR, updateR, eraseR} from '../controller/recibo.js';
+import {fetchR, createR, updateR, updateState, eraseR} from '../controller/recibo.js';
 import {fetchRD, createRD, updateRD} from '../controller/reciboDetalle.js';
 import {fetchS, createS, updateS, eraseS} from '../controller/proveedor.js';
 import {fetchM, cambiarEstado, deleteM, createM} from '../controller/mesa.js';
@@ -40,6 +40,7 @@ route.delete('/delete/product/:idProducto', eraseP);
 route.get('/get/recibo', fetchR);
 route.post('/create/recibo', createR);
 route.put('/update/recibo/:idRecibo', updateR);
+route.put('/update/recibo/state/:idRecibo', updateState);
 route.delete('/delete/recibo/:idRecibo', eraseR);
 
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { ButtonGroup } from "react-bootstrap";
 import { CreditCard } from "react-bootstrap-icons";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -20,8 +21,34 @@ function InventoryData({ id, ammount, client, date, status }: Props) {
 
   const pending = status === "Pendiente";
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => (
+    setShow(false), window.location.assign("/facturacion")
+  );
   const handleShow = () => setShow(true);
+
+  const handlePaymentDB = async (id: number) => {
+    try {
+      console.log("Paying invoice with ID:", id);
+      const url =
+        `http://localhost:8000/api/update/recibo/state/` + id.toString();
+      await axios.put(url, { estado: "Cancelado" });
+    } catch (error) {
+      console.error("Error paying invoice:", error);
+    }
+  };
+
+  const handlePayment = () => {
+    const paymentConfirmation = (
+      document.getElementById("payConfirmEntry") as HTMLInputElement
+    ).value;
+
+    if (paymentConfirmation === "") {
+      alert("Debe ingresar un comprobante de pago.");
+      return;
+    }
+    handlePaymentDB(id);
+    handleClose();
+  };
 
   return (
     <tr>
@@ -58,7 +85,12 @@ function InventoryData({ id, ammount, client, date, status }: Props) {
                   <p>Seleccione el metodo de pago:</p>
                   <div id="methodsRow">
                     <div className="methodsCell">
-                      <input type="radio" name="method" id="tarjeta" />
+                      <input
+                        type="radio"
+                        name="method"
+                        id="tarjeta"
+                        defaultChecked
+                      />
                       <label htmlFor="tarjeta">‎ Tarjeta </label>
                     </div>
                     <div className="methodsCell">
@@ -84,7 +116,7 @@ function InventoryData({ id, ammount, client, date, status }: Props) {
                 <Button variant="secondary" onClick={handleClose}>
                   Cancelar
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={handlePayment}>
                   Confirmar pago
                 </Button>
               </Modal.Footer>
