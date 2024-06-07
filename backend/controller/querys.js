@@ -68,17 +68,13 @@ export const montoTotal = async (req, res) => {
     try {
         const recibos = await recibo.find();
        
+        const today = new Date();
+        const todayRecibos = recibos.filter(recibo => recibo.fecha.getDate() === today.getDate() && recibo.fecha.getMonth() === today.getMonth() && recibo.fecha.getFullYear() === today.getFullYear());
+
         let total = 0; 
         
-        for (let i = 0; i < recibos.length; i++) {
-            
-            
-
-            const detalles = await reciboDetalle.find({ idRecibo: recibos[i].idRecibo });
-            for (let j = 0; j < detalles.length; j++) {
-                console.log(detalles[j]);
-                total += detalles[j].total;
-            }
+        for (let i = 0; i < todayRecibos.length; i++) {
+            total += todayRecibos[i].monto;
         }
         res.status(200).json({ total });
     } catch (error) {
@@ -93,18 +89,11 @@ export const cantidadTotal = async (req, res) => {
     try {
         const recibos = await recibo.find();
        
-        let total = 0; 
-        
-        for (let i = 0; i < recibos.length; i++) {
-            
-            
+        // filters the recibos and returns only the ones that, as fecha, have the same day as the current day
+        const today = new Date();
+        const todayRecibos = recibos.filter(recibo => recibo.fecha.getDate() === today.getDate() && recibo.fecha.getMonth() === today.getMonth() && recibo.fecha.getFullYear() === today.getFullYear());
+        let total = todayRecibos.length;
 
-            const detalles = await reciboDetalle.find({ idRecibo: recibos[i].idRecibo });
-            for (let j = 0; j < detalles.length; j++) {
-                console.log(detalles[j]);
-                total += detalles[j].cantidad;
-            }
-        }
         res.status(200).json({ total });
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -117,17 +106,30 @@ export const resumenProductos = async (req, res) => {
     try {
         const productos = await producto.find();
         let resumen = [];
+        const recibos = await recibo.find();
+        const today = new Date();
+        const todayRecibos = recibos.filter(recibo => recibo.fecha.getDate() === today.getDate() && recibo.fecha.getMonth() === today.getMonth() && recibo.fecha.getFullYear() === today.getFullYear());
+
+        const todayRecibosDetalles = await reciboDetalle.find({ idRecibo: { $in: todayRecibos.map(recibo => recibo.idRecibo) } });
         for (let i = 0; i < productos.length; i++) {
-            const detalles = await reciboDetalle.find({ idProducto: productos[i].idProducto });
             let cantidad = 0;
-            let total = 0;
-            for (let j = 0; j < detalles.length; j++) {
-                total += detalles[j].total;
-                cantidad += detalles[j].cantidad;
+            let monto = 0;
+            for (let j = 0; j < todayRecibosDetalles.length; j++) {
+                if (productos[i].idProducto === todayRecibosDetalles[j].idProducto) {
+                    cantidad += todayRecibosDetalles[j].cantidad;
+                    monto += todayRecibosDetalles[j].total;
+                }
             }
-            resumen.push({ nombre: productos[i].nombre, cantidad, total });
-            
+            resumen.push({
+                idProducto: productos[i].idProducto,
+                nombre: productos[i].nombre,
+                cantidad: cantidad,
+                monto: monto
+            });
         }
+        
+        resumen.sort((a, b) => b.monto - a.monto);
+        resumen = resumen.filter(producto => producto.cantidad > 0);
         res.status(200).json(resumen);
     } catch (error) {
         console.error('Error fetching products:', error);

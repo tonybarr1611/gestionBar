@@ -9,6 +9,7 @@ import SuppliersAdd from "./components/Suppliers/SuppliersAdd";
 import TablesDashboard from "./components/Tables/TablesDashboard";
 import RequestsForm from "./components/Requests/RequestsForm";
 import RequestSummary from "./components/Requests/RequestSummary";
+import DailyReports from "./components/DailyReports/DailyReports";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/solicitudes/resumen" Component={RequestSummary}></Route>
         <Route path="/mesas" Component={TablesDashboard}></Route>
         <Route path="/facturacion" Component={BillingDataTable}></Route>
+        <Route path="/reportes" Component={DailyReports}></Route>
       </Routes>
     </Router>
   );

@@ -46,13 +46,14 @@ route.get('/get/recibo', fetchR);
 route.post('/create/recibo', createR);
 route.put('/update/recibo/:idRecibo', updateR);
 route.put('/update/recibo/state/:idRecibo', updateState);
-route.delete('/delete/recibo/:idRecibo', eraseR);
+route.delete('/delete/recibo', eraseR);
 
 
 //reciboDetalle
 route.get('/get/RD', fetchRD);
 route.post('/create/RD', createRD);
 route.put('/update/RD/:nombre', updateRD);
+
 //proveedores
 route.get('/get/proveedor', fetchS);
 route.post('/create/proveedor', createS);

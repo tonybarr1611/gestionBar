@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import reciboD from '../models/reciboDetalleModel.js';
 import recibo from '../models/reciboModel.js';
+import reciboDetalle from './reciboDetalle.js';
 
 export const createR = async (req, res) => {
     try {
@@ -42,7 +43,7 @@ export const updateR = async (req, res) => {
         }
         reciboU.fecha = req.body.fecha;
         reciboU.monto = req.body.monto;
-        reciboU.tipo = req.body.tipo;
+        reciboU.estado = req.body.estado;
         reciboU.comprador = req.body.comprador;
         await reciboU.save();
         res.status(200).json(reciboU);
