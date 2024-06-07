@@ -28,7 +28,10 @@ function InventoryDataTable() {
     fetchItems();
   }, []);
 
-  const maxID = data.reduce((max, data) => (data.id > max ? data.id : max), 0);
+  const maxID = data.reduce(
+    (max: any, data: any) => (data.id > max ? data.id : max),
+    0
+  );
 
   return (
     <div className="backgroundGrey datatable">
@@ -45,7 +48,7 @@ function InventoryDataTable() {
             </tr>
           </thead>
           <tbody>
-            {data.map((data) => (
+            {data.map((data: any) => (
               <InventoryData key={data.id} {...data} />
             ))}
           </tbody>

@@ -4,8 +4,8 @@ import {fetchR, createR, updateR, eraseR} from '../controller/recibo.js';
 import {fetchRD, createRD, updateRD} from '../controller/reciboDetalle.js';
 import {fetchS, createS, updateS, eraseS} from '../controller/proveedor.js';
 import {fetchM, cambiarEstado, deleteM, createM} from '../controller/mesa.js';
-import {fetchMD, createMD, updateMD, eraseMD} from '../controller/mesaDetalle.js';
-import {montoTotal, cantidadTotal, resumenProductos, transMesaRecibo} from '../controller/querys.js';
+import {fetchMD, fetchOneMD, createMD, updateMD, eraseMD} from '../controller/mesaDetalle.js';
+import {montoTotal, cantidadTotal, resumenProductos, transMesaRecibo, getTableTotal} from '../controller/querys.js';
 import axios from 'axios';
 import { get } from 'mongoose';
 const route = express.Router();
@@ -15,6 +15,7 @@ route.get('/get/total', montoTotal) ;
 route.get('/get/resumen', resumenProductos);
 route.get('/get/cantidad', cantidadTotal);
 route.post('/transMesaRecibo/:idMesa', transMesaRecibo);
+route.get('/get/tableTotal/:idMesa', getTableTotal);
 
 //mesa 
 route.get('/get/mesa', fetchM);
@@ -24,8 +25,9 @@ route.post('/create/mesa', createM);
 
 //mesaDetalle
 route.get('/get/mesaD', fetchMD);
+route.get('/get/mesaD/:idMesa', fetchOneMD);
 route.post('/create/mesaD', createMD);
-route.put('/update/mesaD/:_id', updateMD);
+route.put('/update/mesaD/:idMesa', updateMD);
 route.delete('/delete/mesaD/:_id', eraseMD);
 
 //productos

@@ -8,7 +8,6 @@ const reciboSchema = new mongoose.Schema({
         required: true,
         unique : true
     },
-    
     fecha: {
         type: Date,
         required: true,
@@ -17,7 +16,7 @@ const reciboSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    tipo: {
+    estado: {
         type: String,
         required: true,
     },

@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 
 const proveedorSchema = new mongoose.Schema({
-    nombre: {   
+    idProveedor: {
+        type: Number,
+        required: true,
+        unique: true
+    },nombre: {   
         type: String,
         required: true,
     },

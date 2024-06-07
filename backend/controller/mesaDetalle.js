@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import mesaD from '../models/mesaDetalleModel.js';
 import product from '../models/productoModel.js';
+
 export const createMD = async (req, res) => {
     try {
         const newMesaD = new mesaD({
@@ -31,9 +32,10 @@ export const createMD = async (req, res) => {
     }
 }
 
+// BE CAREFUL
 export const fetchMD = async (req, res) => {
     try {
-        const MesaDetalles = await MesaD.find();
+        const MesaDetalles = await mesaD.find();
         res.status(200).json(MesaDetalles);
     } catch (error) {
         console.error('Error fetching:', error);
@@ -41,19 +43,43 @@ export const fetchMD = async (req, res) => {
     }
 };
 
+export const fetchOneMD = async (req, res) => {
+    try {
+        const id = req.params.idMesa;
+        const MesaDetalles = await mesaD.find({idMesa: id});
+        res.status(200).json(MesaDetalles);
+    } catch (error) {
+        console.error('Error fetching:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+// USE WHEN UPDATING QUANTITY OF PRODUCT
 export const updateMD = async (req, res) => {
     try {
         const id = req.params.idMesa; // El nombre del producto a actualizar se obtiene de los parámetros de la solicitud
-        const mesaDet = await mesaD.findOne({ idMesa: id }); // Buscar el producto por su nombre en lugar de por su ID
+        var mesaDet = await mesaD.find({ idProducto: req.body.idProducto }); // Buscar el producto por su nombre en lugar de por su ID
+        mesaDet = mesaDet.find(mesaDet => mesaDet.idMesa == id);
         if (!mesaDet) {
             return res.status(404).json({ error: 'mesa not found' });
         }
-        
-        mesaDet.idProducto = req.body.idProducto;
-        mesaDet.cantidad = req.body.cantidad;
-        mesaDet.precio = req.body.precio;
-        mesaDet.total = req.body.cantidad * req.body.precio;
-        await mesaDet.save();
+        // Actualizar cantidad de producto en la base de datos
+        const producto = await product.findOne({ idProducto :  mesaDet.idProducto});
+        if (!producto) {
+            return res.status(404).json({ error: 'product not found' });
+        }
+        producto.cantidadDispo = producto.cantidadDispo - req.body.cantidad;
+
+        await producto.save();
+        mesaDet.cantidad = mesaDet.cantidad + req.body.cantidad;
+        mesaDet.total = mesaDet.cantidad * mesaDet.precio;
+        if (mesaDet.cantidad == 0) {
+            console.log('mesaDet.cantidad == 0');
+            await mesaD.findByIdAndDelete(mesaDet._id);
+        }else{
+            await mesaDet.save();
+        }
         res.status(200).json(mesaDet);
     } catch (error) {
         console.error('Error updating mesad:', error);
@@ -61,6 +87,7 @@ export const updateMD = async (req, res) => {
     }
 };
 
+// DO NOT USE, NOT NECESSARY
 export const eraseMD = async (req, res) => {
     try {
         const id = req.params._id;
@@ -76,4 +103,4 @@ export const eraseMD = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-export default {fetchMD , createMD, updateMD , eraseMD }; // This is the function that will be called in the route file.
+export default {fetchMD , fetchOneMD, createMD, updateMD , eraseMD }; // This is the function that will be called in the route file.

@@ -1,18 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { PlusCircle, DashCircle } from "react-bootstrap-icons";
 import { Button, Toast, ToastContainer } from "react-bootstrap";
 import TableDetail from "./TableDetail";
 import Table from "./assets/table.png";
+import axios from "axios";
 import "./TablesStyle.css";
-
-const initialTableInfo = [
-  {
-    id: 1,
-    status: "0",
-    productos: [],
-  },
-];
 
 const colorChoser = (status: any) => {
   return status === "1" ? "rgb(238, 78, 78)" : "rgb(121, 147, 81)";
@@ -56,14 +49,63 @@ function ErrorToastExample() {
 }
 
 function TablesDashboard() {
-  const [tableInfo, setTableInfo] = useState(initialTableInfo);
+  const [tableInfo, setTableInfo] = useState([
+    {
+      id: 1,
+      status: "0",
+      productos: [],
+    },
+  ]);
   const [selectedTableIndex, setSelectedTableIndex] = useState<number | null>(
     null
   );
 
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/get/mesa");
+        const data = await response.json();
+        const mappedData = data.map((mesa: any) => ({
+          _id: mesa._id,
+          id: mesa.idMesa,
+          status: mesa.status,
+          productos: [],
+        }));
+        for (let i = 0; i < data.length; i++) {
+          const productos = await fetch(
+            `http://localhost:8000/api/get/mesaD/${data[i].idMesa}`
+          );
+          const productosData = await productos.json();
+          const mappedProductos = productosData.map((producto: any) => [
+            producto.idProducto,
+            producto.cantidad,
+          ]);
+          mappedData[i].productos = mappedProductos;
+        }
+        setTableInfo(mappedData); // Handling JSON response
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  // Toggles the status of a table in the database
+  const toggleStatus = async (mesaID: number) => {
+    try {
+      await axios.put(`http://localhost:8000/api/update/mesa/${mesaID}`);
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  };
+
   const handleTableClick = (index: number) => {
     const newTableInfo = [...tableInfo];
-    newTableInfo[index].status = "1";
+    if (newTableInfo[index].status === "0") {
+      newTableInfo[index].status = "1";
+      toggleStatus(newTableInfo[index].id);
+    }
     setTableInfo(newTableInfo);
 
     if (newTableInfo[index].status === "1") {
@@ -85,8 +127,27 @@ function TablesDashboard() {
       />
     ));
 
+  const addTableDB = async (newMesaID: number) => {
+    try {
+      const data = {
+        idMesa: newMesaID,
+      };
+      await axios.post("http://localhost:8000/api/create/mesa", data);
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+  };
+
+  const removeTableDB = async (oldMesaID: number) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/delete/mesa/${oldMesaID}`);
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+
   const addTable = () => {
-    // TODO - Update database
+    addTableDB(tableInfo.length + 1);
     const newTable = {
       id: tableInfo.length + 1,
       status: "0",
@@ -96,7 +157,7 @@ function TablesDashboard() {
   };
 
   const removeTable = () => {
-    // TODO - Update database
+    removeTableDB(tableInfo.length);
     // Check if table is available, if not, don't remove
 
     if (tableInfo.length > 0) {
@@ -123,8 +184,21 @@ function TablesDashboard() {
     setSelectedTableIndex(null);
   };
 
+  const handleTableFinishDB = async (mesaID: number) => {
+    try {
+      await axios.post(`http://localhost:8000/api/transMesaRecibo/${mesaID}`, {
+        fecha: new Date(),
+        estado: "Pendiente",
+        comprador: "Anónimo",
+      });
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  };
+
   const handleTableFinish = () => {
-    // TODO - Update database
+    handleTableFinishDB(tableInfo[selectedTableIndex || 0].id);
+    toggleStatus(tableInfo[selectedTableIndex || 0].id);
     const newTableInfo = [...tableInfo];
     newTableInfo[selectedTableIndex || 0].status = "0";
     newTableInfo[selectedTableIndex || 0].productos = [];

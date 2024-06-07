@@ -5,19 +5,43 @@ import mesaD from '../models/mesaDetalleModel.js';
 import mongoose from 'mongoose';
 
 
+export const getTableTotal = async (req, res) => {
+    try {
+        const mesaDetalles = await mesaD.find({ idMesa: req.params.idMesa });
+        let total = 0;
+        for (let i = 0; i < mesaDetalles.length; i++) {
+            total += mesaDetalles[i].total;
+        }
+        res.status(200).json({ total });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 export const transMesaRecibo = async (req, res) => {
     req.params.idMesa = req.params.idMesa;
     try {
+        const mesaDetalles = await mesaD.find({ idMesa: req.params.idMesa });
+        let total = 0;
+        for (let i = 0; i < mesaDetalles.length; i++) {
+            total += mesaDetalles[i].total;
+        }
+        var maxIDRecibo;
+        if ((await recibo.countDocuments()) === 0) {
+            maxIDRecibo = 0;
+        } else {
+            maxIDRecibo = (await recibo.find().sort({ idRecibo: -1 }).limit(1))[0].idRecibo;
+        }
         const newRecibo = new recibo({
             _id: new mongoose.Types.ObjectId(),
-            idRecibo: req.body.idRecibo,
+            idRecibo: maxIDRecibo + 1,
             fecha: req.body.fecha,
-            monto: req.body.monto,
-            tipo: req.body.tipo,
+            monto: total,
+            estado: req.body.estado,
             comprador: req.body.comprador
         });
         await newRecibo.save();
-        const mesaDetalles = await mesaD.find({ idMesa: req.params.idMesa });
 
         for (let i = 0; i < mesaDetalles.length; i++) {
             const newReciboDetalle = new reciboDetalle({
@@ -110,4 +134,4 @@ export const resumenProductos = async (req, res) => {
     }
 }
 
-export default { montoTotal, cantidadTotal, resumenProductos, transMesaRecibo};
+export default { montoTotal, cantidadTotal, resumenProductos, transMesaRecibo, getTableTotal };

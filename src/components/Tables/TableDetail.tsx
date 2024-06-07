@@ -1,190 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { PlusCircle, DashCircle } from "react-bootstrap-icons";
+import axios from "axios";
 import "./TablesStyle.css";
 
 function TableDetail({ open, tableIndex, tableInfo }: any) {
   const [productos, setProductos] = useState<any[]>([]);
+  const [productData, setProductData] = useState<any[]>([]);
 
-  const mockProductData = [
-    {
-      id: 1,
-      item: "Apple iPhone 13",
-      type: "Electronics",
-      name: "Smartphone",
-      quantity: 50,
-      price: 999,
-    },
-    {
-      id: 2,
-      item: "Nike Air Max",
-      type: "Footwear",
-      name: "Running Shoes",
-      quantity: 200,
-      price: 120,
-    },
-    {
-      id: 3,
-      item: "Sony WH-1000XM4",
-      type: "Electronics",
-      name: "Noise Cancelling Headphones",
-      quantity: 150,
-      price: 350,
-    },
-    {
-      id: 4,
-      item: "Samsung Galaxy Tab S7",
-      type: "Electronics",
-      name: "Tablet",
-      quantity: 75,
-      price: 650,
-    },
-    {
-      id: 5,
-      item: "Dell XPS 13",
-      type: "Electronics",
-      name: "Laptop",
-      quantity: 60,
-      price: 1200,
-    },
-    {
-      id: 6,
-      item: "Adidas Ultraboost",
-      type: "Footwear",
-      name: "Running Shoes",
-      quantity: 180,
-      price: 180,
-    },
-    {
-      id: 7,
-      item: "Apple Watch Series 7",
-      type: "Electronics",
-      name: "Smartwatch",
-      quantity: 130,
-      price: 399,
-    },
-    {
-      id: 8,
-      item: "Bose QuietComfort 35 II",
-      type: "Electronics",
-      name: "Noise Cancelling Headphones",
-      quantity: 90,
-      price: 299,
-    },
-    {
-      id: 9,
-      item: "Google Nest Hub",
-      type: "Electronics",
-      name: "Smart Display",
-      quantity: 110,
-      price: 129,
-    },
-    {
-      id: 10,
-      item: "Canon EOS R6",
-      type: "Electronics",
-      name: "Mirrorless Camera",
-      quantity: 40,
-      price: 2500,
-    },
-    {
-      id: 11,
-      item: "Levi's 501 Original",
-      type: "Clothing",
-      name: "Jeans",
-      quantity: 300,
-      price: 70,
-    },
-    {
-      id: 12,
-      item: "Sony PlayStation 5",
-      type: "Electronics",
-      name: "Gaming Console",
-      quantity: 55,
-      price: 499,
-    },
-    {
-      id: 13,
-      item: "Amazon Echo Dot",
-      type: "Electronics",
-      name: "Smart Speaker",
-      quantity: 210,
-      price: 50,
-    },
-    {
-      id: 14,
-      item: "Microsoft Surface Pro 7",
-      type: "Electronics",
-      name: "2-in-1 Laptop",
-      quantity: 80,
-      price: 899,
-    },
-    {
-      id: 15,
-      item: "Fitbit Charge 5",
-      type: "Electronics",
-      name: "Fitness Tracker",
-      quantity: 140,
-      price: 179,
-    },
-    {
-      id: 16,
-      item: "Instant Pot Duo",
-      type: "Home Appliances",
-      name: "Pressure Cooker",
-      quantity: 170,
-      price: 99,
-    },
-    {
-      id: 17,
-      item: "Kindle Paperwhite",
-      type: "Electronics",
-      name: "E-Reader",
-      quantity: 90,
-      price: 129,
-    },
-    {
-      id: 18,
-      item: "Dyson V11",
-      type: "Home Appliances",
-      name: "Cordless Vacuum Cleaner",
-      quantity: 65,
-      price: 599,
-    },
-    {
-      id: 19,
-      item: "Nikon Z6",
-      type: "Electronics",
-      name: "Mirrorless Camera",
-      quantity: 50,
-      price: 1800,
-    },
-    {
-      id: 20,
-      item: "GoPro HERO9",
-      type: "Electronics",
-      name: "Action Camera",
-      quantity: 75,
-      price: 399,
-    },
-    {
-      id: 21,
-      item: "Ray-Ban Wayfarer",
-      type: "Accessories",
-      name: "Sunglasses",
-      quantity: 230,
-      price: 150,
-    },
-    {
-      id: 22,
-      item: "The North Face Jacket",
-      type: "Clothing",
-      name: "Winter Jacket",
-      quantity: 120,
-      price: 250,
-    },
-    // Add more mock data here
-  ];
+  useEffect(() => {
+    // Fetch product data from the API
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/get/product"
+        );
+        const fetchedData = response.data.map((product: any) => ({
+          id: product.idProducto,
+          item: product.nombre,
+          quantity: product.cantidadDispo,
+          price: product.precio,
+        }));
+        setProductData(fetchedData);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    fetchProductData();
+  }, []);
 
   useEffect(() => {
     if (open && tableIndex >= 0) {
@@ -192,7 +36,35 @@ function TableDetail({ open, tableIndex, tableInfo }: any) {
     }
   }, [open, tableIndex, tableInfo]);
 
-  const sumToQuantity = (productID: number, quantity: number) => {
+  const updateQuantityDB = async (productID: number, quantity: number) => {
+    try {
+      await axios.put(
+        `http://localhost:8000/api/update/mesaD/${tableInfo[tableIndex].id}`,
+        {
+          idProducto: productID,
+          cantidad: quantity,
+        }
+      );
+    } catch (error) {
+      console.error("Error updating product quantity:", error);
+    }
+  };
+
+  const addProductDB = async (productID: number) => {
+    try {
+      await axios.post(`http://localhost:8000/api/create/mesaD`, {
+        idMesa: tableInfo[tableIndex].id,
+        idProducto: productID,
+        cantidad: 1,
+        precio: productData.find((product) => product.id === productID)?.price,
+      });
+    } catch (error) {
+      console.error("Error adding product to table:", error);
+    }
+  };
+
+  const sumToQuantity = async (productID: number, quantity: number) => {
+    await updateQuantityDB(productID, quantity);
     setProductos((prevProductos) => {
       const updatedProductos = prevProductos
         .map((product) =>
@@ -205,30 +77,29 @@ function TableDetail({ open, tableIndex, tableInfo }: any) {
       // Also update the main tableInfo to keep it in sync
       const updatedTableInfo = [...tableInfo];
       updatedTableInfo[tableIndex].productos = updatedProductos;
-      // TODO - Update database
       console.log(updatedTableInfo);
       return updatedProductos;
     });
   };
 
-  const addProduct = (productID: number) => {
-    setProductos((prevProductos) => {
-      const productExists = prevProductos.some(
-        (product) => product[0] === productID
-      );
+  const addProduct = async (productID: number) => {
+    const productExists = productos.some((product) => product[0] === productID);
 
-      if (productExists) {
-        return prevProductos.map((product) =>
-          product[0] === productID ? [product[0], product[1] + 1] : product
-        );
-      } else {
-        return [...prevProductos, [productID, 1]];
-      }
-    });
+    if (productExists) {
+      await sumToQuantity(productID, 1);
+      setProductos((prevProductos) =>
+        prevProductos.map((product) =>
+          product[0] === productID ? [product[0], product[1]] : product
+        )
+      );
+    } else {
+      await addProductDB(productID);
+      setProductos((prevProductos) => [...prevProductos, [productID, 1]]);
+    }
   };
 
   const getProductName = (productID: number) => {
-    const product = mockProductData.find((p) => p.id === productID);
+    const product = productData.find((p) => p.id === productID);
     return product ? product.item : `Producto ${productID}`;
   };
 
@@ -264,20 +135,16 @@ function TableDetail({ open, tableIndex, tableInfo }: any) {
                 <tr>
                   <th>ID</th>
                   <th>Artículo</th>
-                  <th>Tipo</th>
-                  <th>Nombre</th>
                   <th>Cantidad</th>
                   <th>Precio</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {mockProductData.map((data) => (
+                {productData.map((data) => (
                   <tr key={data.id}>
                     <td>{data.id}</td>
                     <td>{data.item}</td>
-                    <td>{data.type}</td>
-                    <td>{data.name}</td>
                     <td>{data.quantity}</td>
                     <td>{data.price}</td>
                     <td>

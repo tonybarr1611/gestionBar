@@ -6,6 +6,7 @@ export const createS = async (req, res) => {
     try {
         console.log(req.body);
         const newProveedor = new proveedor({
+            idProveedor: req.body.idProveedor,
             nombre: req.body.nombre,
             correo: req.body.correo,
             telefono: req.body.telefono,

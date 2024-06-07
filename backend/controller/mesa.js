@@ -20,7 +20,7 @@ export const createM = async (req, res) => {
         const newMesa = new mesa({
             _id: new mongoose.Types.ObjectId(),
             idMesa: req.body.idMesa,
-            status: 1
+            status: 0
         });
         await newMesa.save();
         res.status(201).json(newMesa);
